@@ -8,7 +8,8 @@
 " command line with the following syntax:
 " vim --noplugin -u vim/vundles.vim -N "+set hidden" "+syntax on" +BundleClean! +BundleInstall +qall
 " Filetype off is required by vundle
-filetype off
+"filetype off   comment this out since it's not need for vim newer than
+"7.3.430
 
 set rtp+=~/.vim/bundle/vundle/
 set rtp+=~/.vim/vundles/ "Submodules
