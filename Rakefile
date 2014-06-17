@@ -130,6 +130,8 @@ def number_of_cores
 end
 
 def run_bundle_config
+  return unless system("which bundle")
+
   bundler_jobs = number_of_cores - 1
   puts "======================================================"
   puts "Configuring Bundlers for parallel gem installation"
@@ -252,12 +254,10 @@ def install_prezto
   puts
   puts "Installing Prezto (ZSH Enhancements)..."
 
-  unless File.exists?(File.join(ENV['ZDOTDIR'] || ENV['HOME'], ".zprezto"))
-    run %{ ln -nfs "$HOME/.yadr/zsh/prezto" "${ZDOTDIR:-$HOME}/.zprezto" }
+  run %{ ln -nfs "$HOME/.yadr/zsh/prezto" "${ZDOTDIR:-$HOME}/.zprezto" }
 
-    # The prezto runcoms are only going to be installed if zprezto has never been installed
-    file_operation(Dir.glob('zsh/prezto/runcoms/z*'), :copy)
-  end
+  # The prezto runcoms are only going to be installed if zprezto has never been installed
+  file_operation(Dir.glob('zsh/prezto/runcoms/z*'), :copy)
 
   puts
   puts "Overriding prezto ~/.zpreztorc with YADR's zpreztorc to enable additional modules..."
@@ -346,6 +346,7 @@ def apply_theme_to_iterm_profile_idx(index, color_scheme_path)
   values.flatten.each { |entry| run %{ /usr/libexec/PlistBuddy -c "Delete :'New Bookmarks':#{index}:'#{entry}'" ~/Library/Preferences/com.googlecode.iterm2.plist } }
 
   run %{ /usr/libexec/PlistBuddy -c "Merge '#{color_scheme_path}' :'New Bookmarks':#{index}" ~/Library/Preferences/com.googlecode.iterm2.plist }
+  run %{ defaults read com.googlecode.iterm2 }
 end
 
 def success_msg(action)
