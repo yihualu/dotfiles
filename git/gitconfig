@@ -125,3 +125,8 @@
   enabled = true
 [include]
   path = .gitconfig.user
+[credential]
+	helper = osxkeychain
+[user]
+	name = Edward Lu
+	email = yihua.luu@gmail.com
